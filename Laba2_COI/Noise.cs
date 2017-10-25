@@ -22,8 +22,8 @@ namespace Laba1_COI
         int namberImpulcePixel;
 
         byte[, ,] OriginalImageByte,
-            RandomNoiseByte,
             NoiseImageByte;
+        byte[,] RandomNoiseByte;
         public Noise()
         {
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace Laba1_COI
         private void AdditiveNoise()
         {
             levelNoiseInterference = trackBar2.Value * 0.25D;
-            range = trackBar1.Value * 5+220;
+            range = trackBar1.Value;
             NoiseImageByte = new byte[3, height, width];
             NoiseByte();
             //double[] NoiseEnergy = EnergyField(RandomNoiseByte);
@@ -50,43 +50,29 @@ namespace Laba1_COI
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                 {
-                    NoiseEnergy += RandomNoiseByte[0, y, x] * RandomNoiseByte[0, y, x];
+                    NoiseEnergy += RandomNoiseByte[y, x] * RandomNoiseByte[y, x];
                 }
             double[] ImageEnergy = EnergyField(OriginalImageByte);
             double cash;
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                 {
-                    //cash = OriginalImageByte[0, y, x] + levelNoiseInterference * RandomNoiseByte[0, y, x] * (NoiseEnergy[0] / ImageEnergy[0]);
-                    //NoiseImageByte[0, y, x] = ReturnLevelChennal(cash);
-                    //cash = OriginalImageByte[1, y, x] + levelNoiseInterference * RandomNoiseByte[1, y, x] * (NoiseEnergy[1] / ImageEnergy[1]);
-                    //NoiseImageByte[1, y, x] = ReturnLevelChennal(cash);
-                    //cash = OriginalImageByte[2, y, x] + levelNoiseInterference * RandomNoiseByte[2, y, x] * (NoiseEnergy[2] / ImageEnergy[2]);
-                    //NoiseImageByte[2, y, x] = ReturnLevelChennal(cash);
-                    cash = OriginalImageByte[0, y, x] + levelNoiseInterference * RandomNoiseByte[0, y, x] * (ImageEnergy[0]/ NoiseEnergy);
+                    cash = OriginalImageByte[0, y, x] + levelNoiseInterference * RandomNoiseByte[y, x] * (ImageEnergy[0]/ NoiseEnergy);
                     NoiseImageByte[0, y, x] = ReturnLevelChennal(cash);                                                    
-                    cash = OriginalImageByte[1, y, x] + levelNoiseInterference * RandomNoiseByte[0, y, x] * (ImageEnergy[1]/ NoiseEnergy);
+                    cash = OriginalImageByte[1, y, x] + levelNoiseInterference * RandomNoiseByte[y, x] * (ImageEnergy[1]/ NoiseEnergy);
                     NoiseImageByte[1, y, x] = ReturnLevelChennal(cash);                                                   
-                    cash = OriginalImageByte[2, y, x] + levelNoiseInterference * RandomNoiseByte[0, y, x] * (ImageEnergy[2]/ NoiseEnergy);
+                    cash = OriginalImageByte[2, y, x] + levelNoiseInterference * RandomNoiseByte[y, x] * (ImageEnergy[2]/ NoiseEnergy);
                     NoiseImageByte[2, y, x] = ReturnLevelChennal(cash);
 
                 }
         }
         private void NoiseByte()
         {
-            //RandomNoiseByte = new byte[3, height, width];
-            //for (int y = 0; y < height; y++)
-            //    for (int x = 0; x < width; x++)
-            //    {
-            //        RandomNoiseByte[0, y, x] = (byte)rnd.Next(100, range);
-            //        RandomNoiseByte[1, y, x] = (byte)rnd.Next(100, range);
-            //        RandomNoiseByte[2, y, x] = (byte)rnd.Next(100, range);
-            //    }
-            RandomNoiseByte = new byte [1,height,width];
+            RandomNoiseByte = new byte [height,width];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                 {
-                    RandomNoiseByte[0, y, x] = (byte)rnd.Next(0, range);
+                    RandomNoiseByte[y, x] = (byte)rnd.Next(1, range);
                 }       
         }
         private double[] EnergyField(byte[,,] byteMass)
@@ -117,11 +103,10 @@ namespace Laba1_COI
 
         private void ImpulceNoise()
         {
-            NoiseImageByte = new byte[3, height, width]; 
+            NoiseImageByte = (byte[,,])OriginalImageByte.Clone(); 
             percentOfImpulceNoise = (trackBar3.Value * 5 + 5);
             namberImpulcePixel = (int)((height * width) * (percentOfImpulceNoise / 100.0D));
-            //NoiseImageByte = OriginalImageByte;
-            NoiseImageByte = CopyByteMass(OriginalImageByte);
+            //NoiseImageByte = CopyByteMass(OriginalImageByte);
             for(int count=0; count<namberImpulcePixel;count++)
             {
                 CheckNoise(CoordinateNoise());
@@ -165,7 +150,7 @@ namespace Laba1_COI
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label1.Text = "Диапазон датчика случайных чисел = " + (trackBar1.Value * 5+220).ToString();
+            label1.Text = "Диапазон датчика случайных чисел = " + (trackBar1.Value).ToString();
         }
 
         private void trackBar2_Scroll(object sender, EventArgs e)

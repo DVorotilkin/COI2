@@ -34,10 +34,7 @@ namespace Laba1_COI
         //-----Для сохранения оригинального изображения при добавлении шума
         Bitmap BackupImage;
         byte[, ,] BackupImageByte;
-
-        //------Для масштабирования и среза
-        int firstFlag, secondFlag, coofContrastScaling;
-
+        
         int sigma, scale;//Сигама для фильтра и размер апертуры фильтра
         int k;//Количество соседей для фильтра
 
@@ -86,97 +83,6 @@ namespace Laba1_COI
             this.Close();
         }
         //------Пункт меню выхода из программы
-
-        #endregion
-
-        //----Процедуры
-        #region Меню "Процедуры"
-
-        private void контрастноеМаштабированиеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ContrastScalingDialog CSD = new ContrastScalingDialog();
-            CSD.Owner = this;
-            CSD.ShowDialog();
-            if (FormsSuccessfullFlag)
-            {
-                AlteredImageByte = ContrastScaling(OriginalImageByte);
-                DownConsole.Text = "К изображению успешно применена процедура контрастного масштабирования.";
-                AlteredImage = toBitmap(AlteredImageByte);
-                pictureBox2.Image = AlteredImage;
-            }
-            FormsSuccessfullFlag = false;
-        }
-        //------Пункт меню контрастное линейное масштабирование
-    
-        private void инвертированноеКонтрастноеМасштабированиеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = InvertedContrastScaling(OriginalImageByte);
-            AlteredImage = toBitmap(AlteredImageByte);
-            DownConsole.Text = "К изображению успешно применена процедура инвертированного контрастного масштабирования.";
-            pictureBox2.Image = AlteredImage;
-        }
-        //------Пункт меню инвертированное контрастное масштабирование
-       
-        private void яркостнойСрезToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            BrightCut BC = new BrightCut();
-            BC.Owner = this;
-            BC.ShowDialog();
-            if (FormsSuccessfullFlag)
-            {
-                AlteredImageByte = BrightCut(OriginalImageByte);
-                DownConsole.Text = "К изображению успешно применена процедура яркостного среза.";
-                AlteredImage = toBitmap(AlteredImageByte);
-                pictureBox2.Image = AlteredImage;
-            }
-            FormsSuccessfullFlag = false;
-        }
-        //------Пункт меню яркостной срез
-
-        #endregion
-
-        //----Гистограмма
-        #region Меню "Гистограмма"
-
-        private void равномернаяToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Histogramm H = new Histogramm(1);
-            H.Owner = this;
-            H.Show();
-        }
-        //------Пункт меню Равномерная
-
-        private void экспоненциальнаяToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Histogramm H = new Histogramm(2);
-            H.Owner = this;
-            H.Show();
-        }
-        //------Пункт меню экспоненциальная
-
-        private void законРаспределенияРелеяToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Histogramm H = new Histogramm(3);
-            H.Owner = this;
-            H.Show();
-        }
-        //------Пункт меню закон распределения Релея
-
-        private void степени23ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Histogramm H = new Histogramm(4);
-            H.Owner = this;
-            H.Show();
-        }
-        //------Пункт меня степени 2/3
-
-        private void гиперболическаяToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Histogramm H = new Histogramm(5);
-            H.Owner = this;
-            H.Show();
-        }
-        //------Пункт меню гиперболическая
 
         #endregion
 
@@ -358,235 +264,10 @@ namespace Laba1_COI
 
         #endregion
 
-        //----Выделение контуров
-        #region Выделение контуров
-
-        private void дискретныйЛапласианToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = DisckrLap(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = DisckrLap(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = DisckrLap(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;
-        }
-        //------Пункт меню Дискретный лапласиан
-
-        private void расширенныйЛапласианToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = ExpanLap(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = ExpanLap(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = ExpanLap(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;
-        }
-        //------Пункт меню Расширенный лапласиан
-
-        private void фильтрРобертсаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = RobertsFilter(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = RobertsFilter(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = RobertsFilter(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;            
-        }
-        //------Пункт меню Фильтр Робертса
-
-        private void фильтрСобеляToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = SobelsFilter(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = SobelsFilter(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = SobelsFilter(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;    
-        }
-        //------Пункт меню Фильтр Собеля
-
-        private void операторПревитаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = PrevitsOper(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = PrevitsOper(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = PrevitsOper(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;    
-        }
-        //------Пункт меню Оператор Превита
-
-        private void операторToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = KirshsOper(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = KirshsOper(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = KirshsOper(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;    
-        }
-        //------Пункт меню Оператор Кирша
-
-        private void операторУоллесаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = UollesesOper(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = UollesesOper(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = UollesesOper(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;
-        }
-        //------Пункт меню Оператор Уоллеса
-
-        private void статистическийМетодToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = StatisticMethod(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = StatisticMethod(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = StatisticMethod(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;
-        }
-        //------Пункт меню Статистический метод
-
-        private void детекторГраницКанниToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            KannisBorderDetector KBD = new KannisBorderDetector();
-            KBD.Owner = this;
-            KBD.Show();
-        }
-        //------Пункт меню Детектор границ Канни
-
         #endregion
 
-        #endregion
-
-        //--
-        #region Методы обработки изобрадений
-
-        //----Контрастное линейное масштабирование
-        #region Контрастное линейное масштабирование
-
-        private byte[, ,] ContrastScaling(byte[, ,] byteMass)
-        {
-            byte[, ,] res = new byte[3, height, width];
-            double tang = Math.Tan(coofContrastScaling * Math.PI / 180);
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                {
-                    res[0, y, x] = CompationParametersCS(byteMass[0, y, x], tang);
-                    res[1, y, x] = CompationParametersCS(byteMass[1, y, x], tang);
-                    res[2, y, x] = CompationParametersCS(byteMass[2, y, x], tang);
-                }
-            return res;
-        }
-        //------Метод формирования массива изменённого изображения метода
-
-        private byte CompationParametersCS(byte pixel, double tan)
-        {
-            double value = pixel * tan;
-            if (value < firstFlag)
-                return 0;
-            else if (value > secondFlag)
-                return 255;
-            else
-                return Convert.ToByte(value);
-        }
-        //------Метод возращающий значение канала пикселя преобразованного методом
-
-        public void getContrastScalingPar(int coof, int first, int second)
-        {
-            this.coofContrastScaling = coof;
-            this.firstFlag = first;
-            this.secondFlag = second;
-        }
-        //------Метод передающий из дочерней формы параметры метода
-
-        #endregion
-
-        //----Инверсия
-        private byte[, ,] InvertedContrastScaling(byte[, ,] byteMass)
-        {
-            byte[, ,] res = new byte[3, height, width];
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                {
-                    res[0, y, x] = (byte)(255 - byteMass[0, y, x]);
-                    res[1, y, x] = (byte)(255 - byteMass[1, y, x]);
-                    res[2, y, x] = (byte)(255 - byteMass[2, y, x]);
-                }
-            return res;
-        }
-        //------Метод формирующий изменённое изображение метода
-
-        //----Яркостной срез
-        #region Яркостной срез
-
-        private byte[, ,] BrightCut(byte[, ,] byteMass)
-        {
-            byte[, ,] res = new byte[3, height, width];
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                {
-                    res[0, y, x] = CompationParametersBC(byteMass[0, y, x]);
-                    res[1, y, x] = CompationParametersBC(byteMass[1, y, x]);
-                    res[2, y, x] = CompationParametersBC(byteMass[2, y, x]);
-                }
-            return res;
-        }
-        //------Метод формирующий изменённое изображение метода
-
-        private byte CompationParametersBC(byte pixel)
-        {
-            if (pixel >= firstFlag && pixel <= secondFlag)
-                return pixel;
-            else
-                return 0;
-        }
-        //------Метод возвращающий значение канала пикселя обработанного методом
-
-        public void getBrightCut(int firstFlag, int secondFlag)
-        {
-            this.firstFlag = firstFlag;
-            this.secondFlag = secondFlag;
-        }
-        //------Метод передающий из дочерней формы параметры метода 
-
-        #endregion
-
-        //----Локальное усреднение
+        #region Методы обработки изображений
+        //------Метод возвращающий значение канала пикселя обработаного локальным усреднением
         private byte LocalAveraging(byte[, ,] byteMass, int y, int x, int chennal)
         {
             int cash = byteMass[chennal, y - 1, x - 1] + 2 * byteMass[chennal, y - 1, x] + byteMass[chennal, y - 1, x + 1] +
@@ -598,11 +279,8 @@ namespace Laba1_COI
             else
                 return 255;
         }
-        //------Метод возвращающий значение канала пикселя обработаного локальным усреднением
-
-        //----По обратному коэффициенту
+        
         #region По обратному коэффициенту
-
         private byte SmoothingReverseGradient(byte[, ,] byteMass, int y, int x, int chennal)
         {
             byte pixel = 0;
@@ -789,8 +467,8 @@ namespace Laba1_COI
         private byte Regions(byte[, ,] byteMass, int y, int x, int chennal)
         {
             int[] Vk = new int[9];
-            for (int id = 1; id <= 9; id++)
-                Vk[id - 1] = FindRegionVk(byteMass, y, x, chennal, id);
+            for (int id = 0; id < 9; id++)
+                Vk[id] = FindRegionVk(byteMass, y, x, chennal, id + 1);
             int minId = FindMinVkId(Vk);
             return toByte(SumPixels(byteMass, y, x, chennal, minId) / 9);
         }
@@ -850,138 +528,6 @@ namespace Laba1_COI
         //------Метод возвращающий сумму значений канала пикселей в области
 
         #endregion
-
-        //----Дискретный лапласиан
-        private byte DisckrLap(byte[, ,] byteMass, int y, int x, int chennal)
-        {
-            byte pixel;
-            int w = 0;
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                {
-                    if (i == 0 && j == 0)
-                        w -= 4 * byteMass[chennal, y + i, x + j];
-                    else
-                        w += Math.Abs(i + j) % 2 * byteMass[chennal, y + i, x + j];
-
-                }
-            //pixel = (byte)(byteMass[chennal,y,x] - toByte(w));
-            pixel = toByte(w);
-            return pixel;
-        }
-        //------Метод возвращающий значение канала пикселя дискретного лапласиана
-
-        //----Расширенный лапласиан
-        private byte ExpanLap(byte[, ,] byteMass, int y, int x, int chennal)
-        {
-            byte pixel;
-            int w = 0;
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                {
-                    if (i == 0 && j == 0)
-                        w -= 8 * byteMass[chennal, y + i, x + j];
-                    else
-                        w += byteMass[chennal, y + i, x + j];
-
-                }
-            //pixel = (byte)(byteMass[chennal, y, x] - toByte(w));
-            pixel = toByte(w);
-            return pixel;
-        }
-        //------Метод возвращающий значение канала пикселя расширенного лапласиана
-
-        //----Фильтр Робертса
-        public byte RobertsFilter(byte[,,] byteMass,int y, int x, int chennal)
-        {
-            int pixel = Math.Abs(byteMass[chennal, y + 1, x + 1] - byteMass[chennal, y, x]) +
-                Math.Abs(byteMass[chennal, y + 1, x] - byteMass[chennal, y, x + 1]);
-            return toByte(pixel);
-        }
-        //------Метод возращает значение канала пикселя фильтра Робертса
-
-        //----Фильтр Собеля
-        public byte SobelsFilter(byte[,,] byteMass,int y, int x, int chennal)
-        {
-            //int pixel = Math.Abs((byteMass[chennal, y + 1, x - 1] + 2 * byteMass[chennal, y + 1, x] + byteMass[chennal, y + 1, x + 1]) -
-            //    (byteMass[chennal, y - 1, x - 1] + 2 * byteMass[chennal, y - 1, x] + byteMass[chennal, y - 1, x + 1])) +
-            //    Math.Abs((byteMass[chennal, y - 1, x + 1] + 2 * byteMass[chennal, y, x + 1] + byteMass[chennal, y + 1, x + 1]) -
-            //    (byteMass[chennal, y - 1, x - 1] + 2 * byteMass[chennal, y, x - 1] + byteMass[chennal, y + 1, x - 1]));
-            int[,] firstMask = new int[,] { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } };
-            int[,] secondMask = new int[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
-            int pixel = Math.Abs(MultMatrix(firstMask, byteMass, y, x, chennal, 3)) +
-                Math.Abs(MultMatrix(secondMask, byteMass, y, x, chennal, 3));
-            return toByte(pixel);
-        }
-        //------Метод возращает значение канала пикселя фильтра Собеля
-
-        //----Оператор Превита
-        public byte PrevitsOper(byte[,,] byteMass, int y, int x, int chennal)
-        {
-            int pixel;
-            int[,] Hx = new int[,] { { 1, 0, -1 }, { 1, 0, -1 }, { 1, 0, -1 } };
-            int[,] Hy = new int[,] { { -1, -1, -1 }, { 0, 0, 0 }, { 1, 1, 1 } };
-            int Gx = MultMatrix(Hx, byteMass, y, x, chennal, 3),
-                Gy = MultMatrix(Hy, byteMass, y, x, chennal, 3);
-            if (Gx >= Gy) pixel = Gx;
-            else pixel = Gy;
-            return toByte(pixel);
-        }
-        //------Метод возвращает значение канала пикселя оператора Превита
-
-        //----Оператор Кирша
-        public byte KirshsOper(byte[,,] byteMass, int y, int x, int chennal)
-        {
-            int[,] Matrix = new int[,] { { 5, 5, 5 }, { -3, 0, -3 }, { -3, -3, -3 } };
-            int[] r = new int[8];
-            for(int i =0; i <8; i++)
-            {
-                r[i] = MultMatrix(Matrix, byteMass, y, x, chennal, 3);
-                if(i!=7)
-                    Matrix = RotateMatrix(Matrix);
-            }
-            return toByte(r.Max());
-        }
-        //------Метод возвращает значение канала пикселя оператора Кирша
-
-        //----Оператор Уоллеса
-        public byte UollesesOper(byte[, ,] byteMass, int y, int x, int chennal)
-        {
-            double multi = 1;
-            for(int i =-1; i<=1;i++)
-                for(int j=-1;j<=1;j++)
-                {
-                    if(Math.Abs(i+j)%2==1)
-                        multi *= Convert.ToDouble(byteMass[chennal, y, x] + 1) / (byteMass[chennal, y + i, x + j]+1);
-                }
-            int pixel= (int)(1000*Math.Log(multi)/4);
-            return toByte(pixel);
-        }
-        //------Метод возвращает значение канала пикселя оператора Уоллеса
-
-        //----Статистческий метод
-        private byte StatisticMethod(byte[,,] byteMass,int y, int x, int chennal)
-        {
-            double mult = 0;
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                {
-                    mult += byteMass[chennal, y + i, x + j];
-                }
-            double u = mult / 9;
-            mult = 0;
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                {
-                    mult += Math.Pow((byteMass[chennal, y + i, x + j] - u), 2.0D);
-                }
-            int sigma = (int)Math.Sqrt(mult / 9);
-            return toByte(50*sigma);
-        }
-        //------Метод возвращает значение канала пикселя статистического метода
-
-        //----Детектор границ Канни
-
         #endregion
 
         //--
@@ -1056,10 +602,7 @@ namespace Laba1_COI
 
         private void EnabledMeny(bool flag)
         {
-            процедурыToolStripMenuItem.Enabled =
-                алгоритмыToolStripMenuItem.Enabled =
-                фильтрацияToolStripMenuItem.Enabled = 
-                выделениеКонтуровToolStripMenuItem.Enabled = flag;
+            фильтрацияToolStripMenuItem.Enabled = flag;
         }
         //------Метод определяет активны ли меню обработки изображения
 
@@ -1171,14 +714,6 @@ namespace Laba1_COI
         #endregion
 
         #endregion
-
-        private void chsh()
-        {}
-
-
-
-
-
-               
+          
     }
 }

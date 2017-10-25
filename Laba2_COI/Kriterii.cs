@@ -42,12 +42,11 @@ namespace Laba1_COI
             else
                 OriginalImageByte = main.getOriginalImageByte();
             AlteredImageByte = main.getAlteredImageByte();
-            EnergyOriginal = EnergyOriginalImage();
             if (IsNoisedImage)
             {
-                fistKrit = Funk(NoiseImageByte, AlteredImageByte) / EnergyOriginal;
+                fistKrit = Funk(NoiseImageByte, AlteredImageByte);
             }
-            secondKrit = Funk(AlteredImageByte, OriginalImageByte) / EnergyOriginal;
+            secondKrit = Funk(AlteredImageByte, OriginalImageByte);
             label1.Text += fistKrit.ToString();
             label2.Text += secondKrit.ToString();
             
@@ -70,7 +69,7 @@ namespace Laba1_COI
                 {
                     sum += Math.Pow(Math.Abs(first[0, y, x] - second[0, y, x]), 2.0D);
                 }
-            return sum;
+            return sum / EnergyOriginalImage();
         }
     }
 }
