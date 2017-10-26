@@ -20,7 +20,6 @@ namespace Laba1_COI
             AlteredImageByte;
         double fistKrit,
             secondKrit;
-        double EnergyOriginal;
 
         bool IsNoisedImage;
         public Kriterii()

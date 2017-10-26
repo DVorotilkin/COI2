@@ -128,22 +128,6 @@ namespace Laba1_COI
         }
         //------Пункт меню Удалить шум
 
-        private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlteredImageByte = new byte[3, height, width];
-            for (int y = 1; y < height - 1; y++)
-                for (int x = 1; x < width - 1; x++)
-                {
-                    AlteredImageByte[0, y, x] = LocalAveraging(OriginalImageByte, y, x, 0);
-                    AlteredImageByte[1, y, x] = LocalAveraging(OriginalImageByte, y, x, 1);
-                    AlteredImageByte[2, y, x] = LocalAveraging(OriginalImageByte, y, x, 2);
-                }
-            AlteredImage = toBitmap(AlteredImageByte);
-            pictureBox2.Image = AlteredImage;
-            OpenHaracteristicMenu(true);
-        }
-        //------Пункт меню Локальное усреднение
-
         private void сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlteredImageByte = new byte[3, height, width];
@@ -228,15 +212,6 @@ namespace Laba1_COI
         }
         //------Пункт меню Сглаживание по наиболее однородной окрестности
 
-        private void медианнаяФильтрацияToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MedFilt MF = new MedFilt();
-            MF.Owner = this;
-            MF.Show();
-            OpenHaracteristicMenu(true);
-        }
-        //------Пункт меню Медианная фильтрация
-
         private void эффективностьМетодаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Kriterii k = new Kriterii();
@@ -267,19 +242,6 @@ namespace Laba1_COI
         #endregion
 
         #region Методы обработки изображений
-        //------Метод возвращающий значение канала пикселя обработаного локальным усреднением
-        private byte LocalAveraging(byte[, ,] byteMass, int y, int x, int chennal)
-        {
-            int cash = byteMass[chennal, y - 1, x - 1] + 2 * byteMass[chennal, y - 1, x] + byteMass[chennal, y - 1, x + 1] +
-                2 * byteMass[chennal, y, x - 1] + 4 * byteMass[chennal, y, x] + 2 * byteMass[chennal, y, x + 1] +
-                byteMass[chennal, y + 1, x - 1] + 2 * byteMass[chennal, y + 1, x] + byteMass[chennal, y + 1, x + 1];
-            cash = cash / 16;
-            if (cash <= 255)
-                return (byte)cash;
-            else
-                return 255;
-        }
-        
         #region По обратному коэффициенту
         private byte SmoothingReverseGradient(byte[, ,] byteMass, int y, int x, int chennal)
         {
@@ -389,7 +351,6 @@ namespace Laba1_COI
             this.k = k;
         }
         //------Метод передающий из дочерней формы параметры метода
-
         #endregion
 
         //----К-ближайших соседей

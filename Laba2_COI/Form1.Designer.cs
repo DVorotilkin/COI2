@@ -37,14 +37,10 @@
             this.добавитьАддитивныйШумToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьШумToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сигмафильтрацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживаниеМетодомКближайшихСоседейToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сглаживанияПоНаиболееОднороднойОкрестностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.медианнаяФильтрацияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.эффективностьМетодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.посмотретьИсходноеИзображениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -96,14 +92,10 @@
             this.фильтрацияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьАддитивныйШумToolStripMenuItem,
             this.toolStripSeparator1,
-            this.добавитьToolStripMenuItem,
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem,
-            this.сигмафильтрацияToolStripMenuItem,
             this.сглаживаниеМетодомКближайшихСоседейToolStripMenuItem,
             this.сглаживанияПоНаиболееОднороднойОкрестностиToolStripMenuItem,
             this.toolStripSeparator2,
-            this.медианнаяФильтрацияToolStripMenuItem,
-            this.toolStripSeparator3,
             this.эффективностьМетодаToolStripMenuItem,
             this.посмотретьИсходноеИзображениеToolStripMenuItem});
             this.фильтрацияToolStripMenuItem.Enabled = false;
@@ -140,26 +132,12 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(437, 6);
             // 
-            // добавитьToolStripMenuItem
-            // 
-            this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(440, 22);
-            this.добавитьToolStripMenuItem.Text = "Локальное усреднение";
-            this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
-            // 
             // сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem
             // 
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem.Name = "сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem";
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem.Size = new System.Drawing.Size(440, 22);
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem.Text = "Сглаживания со взвешиванием отсчетов по обратному градиенту";
             this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem.Click += new System.EventHandler(this.сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem_Click);
-            // 
-            // сигмафильтрацияToolStripMenuItem
-            // 
-            this.сигмафильтрацияToolStripMenuItem.Name = "сигмафильтрацияToolStripMenuItem";
-            this.сигмафильтрацияToolStripMenuItem.Size = new System.Drawing.Size(440, 22);
-            this.сигмафильтрацияToolStripMenuItem.Text = "Сигма-фильтрация";
-            this.сигмафильтрацияToolStripMenuItem.Click += new System.EventHandler(this.сигмафильтрацияToolStripMenuItem_Click);
             // 
             // сглаживаниеМетодомКближайшихСоседейToolStripMenuItem
             // 
@@ -179,18 +157,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(437, 6);
-            // 
-            // медианнаяФильтрацияToolStripMenuItem
-            // 
-            this.медианнаяФильтрацияToolStripMenuItem.Name = "медианнаяФильтрацияToolStripMenuItem";
-            this.медианнаяФильтрацияToolStripMenuItem.Size = new System.Drawing.Size(440, 22);
-            this.медианнаяФильтрацияToolStripMenuItem.Text = "Медианная фильтрация";
-            this.медианнаяФильтрацияToolStripMenuItem.Click += new System.EventHandler(this.медианнаяФильтрацияToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(437, 6);
             // 
             // эффективностьМетодаToolStripMenuItem
             // 
@@ -295,17 +261,13 @@
         private System.Windows.Forms.ToolStripMenuItem добавитьАддитивныйШумToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьАддитивныйШумToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem удалитьШумToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сглаживанияСоВзвешиваниемОтсчетовПоОбратномуГрадиентуToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сигмафильтрацияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сглаживаниеМетодомКближайшихСоседейToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сглаживанияПоНаиболееОднороднойОкрестностиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem посмотретьИсходноеИзображениеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem эффективностьМетодаToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem медианнаяФильтрацияToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
